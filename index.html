@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>SubNetPlanner · IPv4 subnet planning</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="ipv4.js" defer></script>
+  <script src="planner.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+<main>
+  <header><div class="eyebrow"><span class="mark" aria-hidden="true">&gt;_</span> NETWORK TOOLS / IPV4</div><h1>SubNetPlanner<span>.</span></h1><p>A place for every subnet. Room for what comes next.</p></header>
+  <section class="card" aria-labelledby="input-title">
+    <div class="section-heading"><h2 id="input-title">01 / Network requirements</h2><span class="badge">LOCAL CALCULATION</span></div>
+    <form id="planner" novalidate>
+      <label for="parent">Parent network / CIDR</label>
+      <input id="parent" value="192.168.0.0/24" spellcheck="false" autocomplete="off" aria-describedby="parent-help error">
+      <small id="parent-help">IPv4 address with /0–/32 prefix. Host bits are normalized to the network address.</small>
+      <div class="requirements-heading"><h3>Subnet requirements</h3><span id="example" class="badge">EXAMPLE DATA · EDIT TO REPLACE</span></div>
+      <p id="hosts-help" class="help">Enter usable hosts. Each subnet reserves network and broadcast addresses and rounds up to the smallest fitting block (/30 or larger).</p>
+      <div id="rows"></div>
+      <button id="add" class="secondary" type="button">+ Add subnet</button>
+      <div class="form-footer"><p>Largest requirements are allocated first.<br>Results stay in your original row order.</p><button type="submit">Plan subnets <span aria-hidden="true">↗</span></button></div>
+      <p id="error" class="error" role="alert" hidden></p>
+    </form>
+  </section>
+  <div class="section-heading results-heading"><h2>02 / Plan overview</h2><span id="status" class="badge">READY</span></div>
+  <section id="empty" class="card empty"><h3>Your network, mapped out</h3><p>Add your requirements and choose Plan subnets to see allocations and remaining address space.</p></section>
+  <div id="results" hidden>
+    <div class="result-grid">
+      <section class="card featured"><h3>Normalized parent / CIDR</h3><output id="cidr" class="large"></output><p id="normalization"></p></section>
+      <section class="card"><h3>Address utilization</h3><output id="utilization" class="large"></output><meter id="usage" min="0" max="100" aria-label="Assigned address percentage"></meter><p>Assigned blocks include network and broadcast addresses.</p></section>
+    </div>
+    <dl class="card metrics"><div><dt>Total addresses</dt><dd id="total"></dd></div><div><dt>Requested subnets</dt><dd id="count"></dd></div><div><dt>Assigned addresses</dt><dd id="assigned"></dd></div><div><dt>Remaining addresses</dt><dd id="remaining"></dd></div></dl>
+    <section class="card allocation-card" aria-labelledby="alloc-title"><div class="section-heading"><h2 id="alloc-title">03 / Subnet allocations</h2><span class="badge">INPUT ORDER</span></div><p>Scroll across for all address details. “Order” shows the allocation sequence.</p><div class="table-scroll" tabindex="0" role="region" aria-label="Subnet allocations, scroll horizontally for all columns"><table><thead><tr><th scope="col">Subnet</th><th scope="col">Order</th><th scope="col">Requested hosts</th><th scope="col">Assigned CIDR</th><th scope="col">Subnet mask</th><th scope="col">Network address</th><th scope="col">First usable</th><th scope="col">Last usable</th><th scope="col">Broadcast</th><th scope="col">Total addresses</th><th scope="col">Usable addresses</th><th scope="col">Unused usable</th></tr></thead><tbody id="allocations"></tbody></table></div></section>
+    <section class="card free-card" aria-labelledby="free-title"><div class="section-heading"><h2 id="free-title">04 / Unallocated ranges</h2><span class="badge">ROOM TO GROW</span></div><div id="free"></div><p>Usable capacity excludes network and broadcast for ordinary blocks. /31 has two point-to-point addresses; /32 has one host route. Standard requirements never receive /31 or /32.</p></section>
+  </div>
+  <p id="announcement" class="sr-only" role="status" aria-live="polite"></p>
+  <p class="disclaimer">Address arithmetic only. Results do not confirm assignment, reachability, or availability on a real network.</p>
+  <footer>IPv4, planned.<span>Runs offline in your browser. No address data is sent.</span></footer>
+</main>
+</body>
+</html>
