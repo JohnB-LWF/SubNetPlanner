@@ -14,7 +14,6 @@ A dependency-free, offline IPv4 VLSM planner and companion to [SubNetCalc](https
 - [Use it](#use-it)
 - [How it works](#how-it-works)
 - [Tests](#tests)
-- [Browser checks](#browser-checks)
 
 ## Use it
 
